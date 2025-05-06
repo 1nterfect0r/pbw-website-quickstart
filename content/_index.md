@@ -1,5 +1,5 @@
 +++
-title = "Unser Pfadfinderstamm "
+title = "Unser Pfadfinderstamm"
 description = "Willkommen bei den Pfadfindern"
 layout = "index"
 type = "miscellaneous"
