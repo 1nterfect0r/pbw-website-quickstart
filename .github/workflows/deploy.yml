@@ -1,0 +1,63 @@
+name: Build & Deploy Hugo Site
+
+# 1. Läuft nur manuell
+on:
+  workflow_dispatch:
+
+# 2. Rechte, damit Pages-Action funktioniert
+permissions:
+  contents: write       # für artifact-upload
+  pages: write          # für GitHub Pages
+  id-token: write       # für OIDC-Signing (Pages benötigt es)
+
+
+# Jobs
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      DEPLOY_TARGET: ${{ github.event.inputs.deploy_target }}
+    outputs:
+      public-dir: ${{ steps.build.outputs.public-dir }}
+    steps:
+        
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '>=1.22'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site with Hugo
+        id: build
+        run: |
+          hugo --gc --minify
+          echo "public-dir=$(pwd)/public" >> $GITHUB_OUTPUT
+
+  deploy-pages:
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      DEPLOY_TARGET: ${{ github.event.inputs.deploy_target }}
+    environment: github-pages
+    steps:
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5          # richtet das Environment ein :contentReference[oaicite:0]{index=0}
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ needs.build.outputs.public-dir }}
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v5              # deployed das Artefakt :contentReference[oaicite:1]{index=1}
