@@ -50,6 +50,12 @@ jobs:
         run: |
           hugo --gc --minify
           echo "public-dir=$(pwd)/public" >> $GITHUB_OUTPUT
+      
+      - name: 🔍 Dump workspace
+        run: |
+          echo "PWD: $(pwd)"
+          echo "Top-level:"; ls -1
+          echo "Full tree:"; find . -maxdepth 3 | sed 's/^/  /'
 
   deploy-pages:
     needs: build
