@@ -15,8 +15,6 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      DEPLOY_TARGET: ${{ github.event.inputs.deploy_target }}
     outputs:
       public-dir: ${{ steps.build.outputs.public-dir }}
     steps:
@@ -53,8 +51,6 @@ jobs:
   deploy-pages:
     needs: build
     runs-on: ubuntu-latest
-    env:
-      DEPLOY_TARGET: ${{ github.event.inputs.deploy_target }}
     environment: github-pages
     steps:
 
