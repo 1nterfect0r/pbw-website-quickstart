@@ -67,4 +67,4 @@ jobs:
           path: ${{ needs.build.outputs.public-dir }}
 
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v5              # deployed das Artefakt :contentReference[oaicite:1]{index=1}
+        uses: actions/deploy-pages@v4              # deployed das Artefakt :contentReference[oaicite:1]{index=1}
