@@ -22,19 +22,19 @@ Unser Stamm gehört zum Pfadfinderbund Weltenbummler, einem Verband von Stämmen
 
 ## Altersstufen
 {{< cards_container >}}
-{{< card id="biber" title="Biber (3-7 Jahre)" status="in Planung" icon="/images/biber_logo.png"
+{{< card id="biber" title="Biber (3-7 Jahre)" status="in Planung" icon="images/biber_logo.png"
 description="Bei den Bibern dreht sich alles um Spiel, Spaß und Abenteuer – draußen sein, basteln, Geschichten hören und die Natur entdecken."  >}}
 
-{{< card id="woelflinge" title="Wölflinge (7-10 Jahre)" status="aktiv" icon="/images/woelfling_logo.png"
+{{< card id="woelflinge" title="Wölflinge (7-10 Jahre)" status="aktiv" icon="images/woelfling_logo.png"
 description="Sie erleben in kleinen Gruppen erste Abenteuer und lernen spielerisch Verantwortung zu übernehmen." >}}
 
-{{< card id="pfadfinder" title="Pfadfinder (10-16 Jahren)" status="aktiv" icon="/images/pfadfinder_logo.png"
+{{< card id="pfadfinder" title="Pfadfinder (10-16 Jahren)" status="aktiv" icon="images/pfadfinder_logo.png"
 description="Hier dreht sich alles um echte Abenteuer in der Natur und gemeinschaftliche Aktivitäten, die Teamgeist und Eigenverantwortung fördern. Die Pfadfinder organisieren sich oft in kleinen Trupps und erkunden die Welt um sich herum – sei es durch Wanderungen, Camps oder kreative Projekte." >}}
 
-{{< card id="rover" title="Rover (ab 16 Jahren)" status="in Planung" icon="/images/rover_logo.png"
+{{< card id="rover" title="Rover (ab 16 Jahren)" status="in Planung" icon="images/rover_logo.png"
  description="Im Fokus steht die Projektarbeit, wie das Planen eines Lagers oder der Bau einer Kanu-Garage. Die Rover entscheiden selbst, was sie machen, und erleben dabei eine großartige Zeit." >}}
 
-{{< card id="mannschaft" title="Mannschaft (ab 27)" status="in Planung" icon="/images/mannschaft_logo.png"
+{{< card id="mannschaft" title="Mannschaft (ab 27)" status="in Planung" icon="images/mannschaft_logo.png"
 description= "Die Mannschaft hilft, wo immer sie gebraucht wird – sei es in der Küche, bei Fahrdiensten oder Organisation. Man erkennt sie an ihren weiß-blauen Halstüchern." >}}
 {{< /cards_container >}}
 
