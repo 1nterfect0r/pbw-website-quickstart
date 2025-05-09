@@ -15,14 +15,12 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    outputs:
-      public-dir: ${{ steps.build.outputs.public-dir }}
     steps:
         
       - name: Check out code
         uses: actions/checkout@v4
         with:
-          submodules: true  # Fetch Hugo themes (true OR recursive)
+          submodules: true  # Fetch Hugo themes
           fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
 
       - name: Set up Go
@@ -46,16 +44,13 @@ jobs:
         run: npm ci
 
       - name: Build site with Hugo
-        id: build
-        run: |
-          hugo --gc --minify
-          echo "public-dir=$(pwd)/public" >> $GITHUB_OUTPUT
+        run: hugo --gc --minify
       
-      - name: 🔍 Dump workspace
-        run: |
-          echo "PWD: $(pwd)"
-          echo "Top-level:"; ls -1
-          echo "Full tree:"; find . -maxdepth 3 | sed 's/^/  /'
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          name: public-dir
+          path: "./public"
 
   deploy-pages:
     needs: build
@@ -63,21 +58,10 @@ jobs:
     environment: github-pages
     steps:
 
-      - name: Dump workspace for debugging
-        run: |
-          echo "pwd = $(pwd)"
-          echo "Listing top-level:"
-          ls -1
-          echo "Listing public/:"
-          ls -1 public || echo ">> public/ does not exist"
-
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5          # richtet das Environment ein :contentReference[oaicite:0]{index=0}
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: "./pbw-website-quickstart/public"
-
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4              # deployed das Artefakt :contentReference[oaicite:1]{index=1}
+        with:
+           artifact_name: "public-dir"
