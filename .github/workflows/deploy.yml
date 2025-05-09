@@ -4,24 +4,25 @@ name: Build & Deploy Hugo Site
 on:
   workflow_dispatch:
     inputs:
+      target:
+        description: 'Deploy target (pages oder sftp)'
+        required: true
+        default: 'pages'
       base_url:
         description: 'Base URL for Hugo (z.B. https://user.github.io/repo/)'
         required: true
         default: 'https://1nterfect0r.github.io/pbw-website-quickstart/'
-
-# 2. Rechte, damit Pages-Action funktioniert
-permissions:
-  contents: write       # für artifact-upload
-  pages: write          # für GitHub Pages
-  id-token: write       # für OIDC-Signing (Pages benötigt es)
 
 
 # Jobs
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write       # für artifact-upload
+      pages: write          # für GitHub Pages
+      id-token: write       # für OIDC-Signing (Pages benötigt es)
     steps:
-        
       - name: Check out code
         uses: actions/checkout@v4
         with:
@@ -49,7 +50,7 @@ jobs:
         run: npm ci
 
       - name: Build site with Hugo
-        run: hugo --gc --minify --baseURL "${{ github.event.inputs.base_url }}"
+        run: hugo --gc --minify --baseURL "${{ inputs.base_url }}"
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -60,9 +61,13 @@ jobs:
   deploy-pages:
     needs: build
     runs-on: ubuntu-latest
+    if: ${{ inputs.target == 'pages' }}
+    permissions:
+      contents: write
+      pages:    write
+      id-token: write
     environment: github-pages
     steps:
-
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5          # richtet das Environment ein :contentReference[oaicite:0]{index=0}
 
@@ -70,3 +75,24 @@ jobs:
         uses: actions/deploy-pages@v4              # deployed das Artefakt :contentReference[oaicite:1]{index=1}
         with:
            artifact_name: "public-dir"
+
+
+  deploy-sftp:
+    needs: build
+    runs-on: ubuntu-latest
+    if: ${{ inputs.target == 'sftp' }}
+    steps:
+      - name: download artifact deploy
+        uses: actions/download-artifact@v4
+        with:
+          name: public-dir
+          path: ./public
+
+      - name: sFTP deploy
+        uses: SamKirkland/web-deploy@v1
+        with:
+          target-server: ${{ secrets.SFTP_HOST }}
+          remote-user: ${{ secrets.SFTP_USER }}
+          private-ssh-key: ${{ secrets.SFTP_SSH_KEY }}
+          destination-path: "~/www/"
+          source-path: "./public"
