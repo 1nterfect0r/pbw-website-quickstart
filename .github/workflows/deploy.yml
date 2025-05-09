@@ -57,13 +57,21 @@ jobs:
     environment: github-pages
     steps:
 
+      - name: Dump workspace for debugging
+        run: |
+          echo "pwd = $(pwd)"
+          echo "Listing top-level:"
+          ls -1
+          echo "Listing public/:"
+          ls -1 public || echo ">> public/ does not exist"
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5          # richtet das Environment ein :contentReference[oaicite:0]{index=0}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "./public"
+          path: "./pbw-website-quickstart/public"
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4              # deployed das Artefakt :contentReference[oaicite:1]{index=1}
