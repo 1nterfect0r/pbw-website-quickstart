@@ -21,6 +21,9 @@ jobs:
         
       - name: Check out code
         uses: actions/checkout@v4
+        with:
+          submodules: true  # Fetch Hugo themes (true OR recursive)
+          fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
 
       - name: Set up Go
         uses: actions/setup-go@v5
@@ -60,7 +63,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ${{ needs.build.outputs.public-dir }}
+          path: "./public"
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4              # deployed das Artefakt :contentReference[oaicite:1]{index=1}
