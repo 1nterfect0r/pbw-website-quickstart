@@ -3,6 +3,11 @@ name: Build & Deploy Hugo Site
 # 1. Läuft nur manuell
 on:
   workflow_dispatch:
+    inputs:
+      base_url:
+        description: 'Base URL for Hugo (z.B. https://user.github.io/repo/)'
+        required: true
+        default: 'https://1nterfect0r.github.io/pbw-website-quickstart/'
 
 # 2. Rechte, damit Pages-Action funktioniert
 permissions:
@@ -44,7 +49,7 @@ jobs:
         run: npm ci
 
       - name: Build site with Hugo
-        run: hugo --gc --minify
+        run: hugo --gc --minify --baseURL "${{ github.event.inputs.base_url }}"
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
