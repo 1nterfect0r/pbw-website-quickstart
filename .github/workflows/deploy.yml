@@ -81,6 +81,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     if: ${{ inputs.target == 'sftp' }}
+    environment: sftp
     steps:
       - name: download artifact deploy
         uses: actions/download-artifact@v4
