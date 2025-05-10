@@ -90,10 +90,12 @@ jobs:
           path: ./public
 
       - name: sFTP deploy
-        uses: SamKirkland/web-deploy@v1
+        uses: wangyucode/sftp-upload-action@v2.0.4
         with:
-          target-server: ${{ secrets.SFTP_HOST }}
-          remote-user: ${{ secrets.SFTP_USER }}
-          private-ssh-key: ${{ secrets.SFTP_SSH_KEY }}
-          destination-path: "~/www/"
-          source-path: "./public"
+          host: ${{ secrets.SFTP_HOST }}
+          username: ${{ secrets.SFTP_USER }}
+          password: ${{ secrets.SFTP_PASSWORD }}
+          localDir: "./public/"
+          remoteDir: "~/www/"
+          forceUpload: true 
+          # private-ssh-key: ${{ secrets.SFTP_SSH_KEY }}
