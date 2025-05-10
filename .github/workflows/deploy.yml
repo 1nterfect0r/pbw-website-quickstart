@@ -96,6 +96,6 @@ jobs:
           username: ${{ secrets.SFTP_USER }}
           password: ${{ secrets.SFTP_PASSWORD }}
           localDir: "./public/"
-          remoteDir: "~/www/"
+          remoteDir: ${{ secrets.SFTP_REMOTE_DIR }}
           forceUpload: true 
           # private-ssh-key: ${{ secrets.SFTP_SSH_KEY }}
