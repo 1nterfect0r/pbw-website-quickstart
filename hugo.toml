@@ -11,7 +11,6 @@
     # version = "v1.0.0"     
 # -------------------------------------------------
 
-baseURL = 'https://example.de'
 languageCode = 'de-de'
 title = 'Pfadfinder Test'
 
