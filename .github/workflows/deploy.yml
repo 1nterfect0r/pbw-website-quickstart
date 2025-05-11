@@ -52,11 +52,20 @@ jobs:
       - name: Build site with Hugo
         run: hugo --gc --minify --baseURL "${{ inputs.base_url }}"
       
+      - name: Upload artifact for pages
+        uses: actions/upload-pages-artifact@v3    # Für pages wird eine seperate upload action ausgeführt
+        if: ${{ inputs.target == 'pages' }}     
+        with:
+          name: public-dir-pages
+          path: "./public"
+
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-artifact@v4
+        if: ${{ inputs.target != 'pages' }}
         with:
           name: public-dir
-          path: "./public"
+          path: ./public
+      
 
   deploy-pages:
     needs: build
@@ -74,7 +83,7 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4              # deployed das Artefakt :contentReference[oaicite:1]{index=1}
         with:
-           artifact_name: "public-dir"
+           artifact_name: public-dir-pages
 
 
   deploy-sftp:
